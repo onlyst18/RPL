@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedCare — Sistem Manajemen Klinik</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ===================== LOGIN PAGE ===================== -->
+  <div id="page-login" class="page active">
+    <div class="login-bg">
+      <div class="login-orb orb1"></div>
+      <div class="login-orb orb2"></div>
+      <div class="login-orb orb3"></div>
+    </div>
+    <div class="login-container">
+      <div class="login-brand">
+        <div class="brand-icon"><i class="fa-solid fa-staff-snake"></i></div>
+        <h1>MedCare</h1>
+        <p>Sistem Klinik</p>
+      </div>
+      <div class="login-card">
+        <h2>Selamat Datang</h2>
+        <p class="login-sub">Masuk untuk melanjutkan</p>
+
+
+        <div class="form-group">
+          <label><i class="fa-solid fa-envelope"></i> Username</label>
+          <input type="text" id="login-username" placeholder="Masukkan username" />
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-lock"></i> Password</label>
+          <div class="input-pw">
+            <input type="password" id="login-password" placeholder="Masukkan password" />
+            <button class="toggle-pw" onclick="togglePw()"><i class="fa-solid fa-eye" id="pw-icon"></i></button>
+          </div>
+        </div>
+        <div id="login-error" class="login-error hidden">Username atau password salah!</div>
+        <button class="btn-login" onclick="doLogin()">Masuk <i class="fa-solid fa-arrow-right"></i></button>
+        <div class="login-hint">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MAIN APP ===================== -->
+  <div id="page-app" class="page">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon sm"><i class="fa-solid fa-staff-snake"></i></div>
+        <span>MedCare</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item active" onclick="showSection('dashboard', this)">
+          <i class="fa-solid fa-house-medical"></i><span>Dashboard</span>
+        </a>
+        <a class="nav-item" onclick="showSection('pasien', this)">
+          <i class="fa-solid fa-bed-pulse"></i><span>Data Pasien</span>
+        </a>
+        <a class="nav-item" onclick="showSection('dokter', this)" id="nav-dokter">
+          <i class="fa-solid fa-user-doctor"></i><span>Data Dokter</span>
+        </a>
+        <a class="nav-item" onclick="showSection('jadwal', this)">
+          <i class="fa-solid fa-calendar-days"></i><span>Jadwal</span>
+        </a>
+        <a class="nav-item" onclick="showSection('rekam', this)">
+          <i class="fa-solid fa-file-medical"></i><span>Rekam Medis</span>
+        </a>
+        <a class="nav-item" onclick="showSection('antrian', this)">
+          <i class="fa-solid fa-list-ol"></i><span>Antrian</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <div class="user-name" id="sidebar-name">Admin</div>
+            <div class="user-role" id="sidebar-role">Administrator</div>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+          <div class="topbar-title" id="topbar-title">Dashboard</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-date" id="topbar-date"></div>
+          <div class="notif-btn"><i class="fa-solid fa-bell"></i><span class="notif-dot"></span></div>
+        </div>
+      </header>
+
+      <!-- ---- DASHBOARD ---- -->
+      <section id="section-dashboard" class="section active">
+        <div class="section-header">
+          <h2>Dashboard</h2>
+          <p>Selamat datang di sistem klinik MedCare</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card green">
+            <div class="stat-icon"><i class="fa-solid fa-bed-pulse"></i></div>
+            <div class="stat-info">
+              <div class="stat-num" id="stat-pasien">0</div>
+              <div class="stat-label">Total Pasien</div>
+            </div>
+            <div class="stat-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +5%</div>
+          </div>
+          <div class="stat-card white">
+            <div class="stat-icon"><i class="fa-solid fa-user-doctor"></i></div>
+            <div class="stat-info">
+              <div class="stat-num" id="stat-dokter">0</div>
+              <div class="stat-label">Total Dokter</div>
+            </div>
+            <div class="stat-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +2%</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon"><i class="fa-solid fa-list-ol"></i></div>
+            <div class="stat-info">
+              <div class="stat-num" id="stat-antrian">0</div>
+              <div class="stat-label">Antrian Hari Ini</div>
+            </div>
+            <div class="stat-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</div>
+          </div>
+          <div class="stat-card white">
+            <div class="stat-icon"><i class="fa-solid fa-file-medical"></i></div>
+            <div class="stat-info">
+              <div class="stat-num" id="stat-rekam">0</div>
+              <div class="stat-label">Rekam Medis</div>
+            </div>
+            <div class="stat-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +8%</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3>Pasien Terbaru</h3>
+              <a onclick="showSection('pasien', document.querySelector('[onclick*=pasien]'))">Lihat Semua</a>
+            </div>
+            <table class="mini-table">
+              <thead><tr><th>Nama</th><th>Keluhan</th><th>Status</th></tr></thead>
+              <tbody id="dash-pasien-list"></tbody>
+            </table>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h3>Antrian Aktif</h3>
+              <a onclick="showSection('antrian', document.querySelector('[onclick*=antrian]'))">Lihat Semua</a>
+            </div>
+            <div id="dash-antrian-list" class="antrian-mini"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- PASIEN ---- -->
+      <section id="section-pasien" class="section">
+        <div class="section-header">
+          <h2>Data Pasien</h2>
+          <button class="btn-primary" id="btn-tambah-pasien" onclick="openModal('modal-pasien')">
+            <i class="fa-solid fa-plus"></i> Tambah Pasien
+          </button>
+        </div>
+        <div class="table-toolbar">
+          <input type="text" class="search-input" placeholder="Cari pasien..." id="search-pasien" oninput="filterPasien()" />
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>No</th><th>Nama</th><th>NIK</th><th>Umur</th><th>JK</th><th>Telepon</th><th>Keluhan</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="table-pasien"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ---- DOKTER ---- -->
+      <section id="section-dokter" class="section">
+        <div class="section-header">
+          <h2>Data Dokter</h2>
+          <button class="btn-primary" onclick="openModal('modal-dokter')">
+            <i class="fa-solid fa-plus"></i> Tambah Dokter
+          </button>
+        </div>
+        <div class="table-toolbar">
+          <input type="text" class="search-input" placeholder="Cari dokter..." id="search-dokter" oninput="filterDokter()" />
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>No</th><th>Nama</th><th>Spesialis</th><th>Telepon</th><th>Jadwal</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="table-dokter"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ---- JADWAL ---- -->
+      <section id="section-jadwal" class="section">
+        <div class="section-header">
+          <h2>Jadwal Praktek</h2>
+          <button class="btn-primary" onclick="openModal('modal-jadwal')">
+            <i class="fa-solid fa-plus"></i> Tambah Jadwal
+          </button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>No</th><th>Dokter</th><th>Hari</th><th>Jam Mulai</th><th>Jam Selesai</th><th>Ruangan</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="table-jadwal"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ---- REKAM MEDIS ---- -->
+      <section id="section-rekam" class="section">
+        <div class="section-header">
+          <h2>Rekam Medis</h2>
+          <button class="btn-primary" onclick="openModal('modal-rekam')">
+            <i class="fa-solid fa-plus"></i> Tambah Rekam
+          </button>
+        </div>
+        <div class="table-toolbar">
+          <input type="text" class="search-input" placeholder="Cari rekam medis..." id="search-rekam" oninput="filterRekam()" />
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>No</th><th>Pasien</th><th>Dokter</th><th>Tanggal</th><th>Diagnosa</th><th>Obat</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="table-rekam"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ---- ANTRIAN ---- -->
+      <section id="section-antrian" class="section">
+        <div class="section-header">
+          <h2>Antrian</h2>
+          <button class="btn-primary" onclick="openModal('modal-antrian')">
+            <i class="fa-solid fa-plus"></i> Tambah Antrian
+          </button>
+        </div>
+        <div class="antrian-board" id="antrian-board"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===================== MODALS ===================== -->
+
+  <!-- Modal Pasien -->
+  <div class="modal-overlay" id="modal-pasien">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-pasien-title">Tambah Pasien</h3>
+        <button onclick="closeModal('modal-pasien')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="pasien-edit-id" />
+        <div class="form-row">
+          <div class="form-group"><label>Nama Lengkap</label><input type="text" id="p-nama" placeholder="Nama pasien"/></div>
+          <div class="form-group"><label>NIK</label><input type="text" id="p-nik" placeholder="16 digit NIK"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Umur</label><input type="number" id="p-umur" placeholder="Umur"/></div>
+          <div class="form-group"><label>Jenis Kelamin</label>
+            <select id="p-jk"><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Telepon</label><input type="text" id="p-telp" placeholder="No. telepon"/></div>
+          <div class="form-group"><label>Golongan Darah</label>
+            <select id="p-gol"><option value="">Pilih</option><option>A</option><option>B</option><option>AB</option><option>O</option></select>
+          </div>
+        </div>
+        <div class="form-group full"><label>Alamat</label><input type="text" id="p-alamat" placeholder="Alamat lengkap"/></div>
+        <div class="form-group full"><label>Keluhan</label><input type="text" id="p-keluhan" placeholder="Keluhan utama"/></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modal-pasien')">Batal</button>
+        <button class="btn-primary" onclick="savePasien()">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Dokter -->
+  <div class="modal-overlay" id="modal-dokter">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-dokter-title">Tambah Dokter</h3>
+        <button onclick="closeModal('modal-dokter')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="dokter-edit-id" />
+        <div class="form-row">
+          <div class="form-group"><label>Nama Dokter</label><input type="text" id="d-nama" placeholder="dr. Nama"/></div>
+          <div class="form-group"><label>Spesialis</label><input type="text" id="d-spesialis" placeholder="Spesialis"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Telepon</label><input type="text" id="d-telp" placeholder="No. telepon"/></div>
+          <div class="form-group"><label>Email</label><input type="email" id="d-email" placeholder="Email"/></div>
+        </div>
+        <div class="form-group full"><label>Jadwal Praktek</label><input type="text" id="d-jadwal" placeholder="Contoh: Senin-Jumat 08:00-14:00"/></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modal-dokter')">Batal</button>
+        <button class="btn-primary" onclick="saveDokter()">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Jadwal -->
+  <div class="modal-overlay" id="modal-jadwal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Tambah Jadwal</h3>
+        <button onclick="closeModal('modal-jadwal')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="jadwal-edit-id" />
+        <div class="form-group full"><label>Dokter</label>
+          <select id="j-dokter"><option value="">Pilih Dokter</option></select>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Hari</label>
+            <select id="j-hari">
+              <option value="">Pilih Hari</option>
+              <option>Senin</option><option>Selasa</option><option>Rabu</option>
+              <option>Kamis</option><option>Jumat</option><option>Sabtu</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Ruangan</label><input type="text" id="j-ruangan" placeholder="Contoh: Poli Umum"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Jam Mulai</label><input type="time" id="j-mulai"/></div>
+          <div class="form-group"><label>Jam Selesai</label><input type="time" id="j-selesai"/></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modal-jadwal')">Batal</button>
+        <button class="btn-primary" onclick="saveJadwal()">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Rekam Medis -->
+  <div class="modal-overlay" id="modal-rekam">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-rekam-title">Tambah Rekam Medis</h3>
+        <button onclick="closeModal('modal-rekam')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="rekam-edit-id" />
+        <div class="form-row">
+          <div class="form-group"><label>Pasien</label>
+            <select id="r-pasien"><option value="">Pilih Pasien</option></select>
+          </div>
+          <div class="form-group"><label>Dokter</label>
+            <select id="r-dokter"><option value="">Pilih Dokter</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Tanggal</label><input type="date" id="r-tanggal"/></div>
+          <div class="form-group"><label>Diagnosa</label><input type="text" id="r-diagnosa" placeholder="Diagnosa penyakit"/></div>
+        </div>
+        <div class="form-group full"><label>Resep Obat</label><input type="text" id="r-obat" placeholder="Nama obat & dosis"/></div>
+        <div class="form-group full"><label>Catatan</label><textarea id="r-catatan" placeholder="Catatan tambahan..." rows="3"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modal-rekam')">Batal</button>
+        <button class="btn-primary" onclick="saveRekam()">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Antrian -->
+  <div class="modal-overlay" id="modal-antrian">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Tambah Antrian</h3>
+        <button onclick="closeModal('modal-antrian')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group full"><label>Pasien</label>
+          <select id="a-pasien"><option value="">Pilih Pasien</option></select>
+        </div>
+        <div class="form-group full"><label>Dokter</label>
+          <select id="a-dokter"><option value="">Pilih Dokter</option></select>
+        </div>
+        <div class="form-group full"><label>Keluhan</label><input type="text" id="a-keluhan" placeholder="Keluhan hari ini"/></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modal-antrian')">Batal</button>
+        <button class="btn-primary" onclick="saveAntrian()">Daftarkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
