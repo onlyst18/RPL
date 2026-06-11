@@ -27,6 +27,14 @@
         <h2>Selamat Datang</h2>
         <p class="login-sub">Masuk untuk melanjutkan</p>
 
+        <div class="role-toggle">
+          <button class="role-btn active" data-role="admin" onclick="setRole('admin', this)">
+            <i class="fa-solid fa-user-shield"></i> Admin
+          </button>
+          <button class="role-btn" data-role="user" onclick="setRole('user', this)">
+            <i class="fa-solid fa-user"></i> Pasien
+          </button>
+        </div>
 
         <div class="form-group">
           <label><i class="fa-solid fa-envelope"></i> Username</label>
